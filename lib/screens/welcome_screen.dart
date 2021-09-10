@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import './intro_screen.dart';
+import './login_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -12,8 +14,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 2)).then((_) {
-      Get.off(() => IntroScreen());
+    Future.delayed(Duration(seconds: 0)).then((_) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final firstTime = prefs.getBool('first time');
+      await Future.delayed(Duration(seconds: 2));
+      if (firstTime == null || firstTime) {
+        prefs.setBool('first time', true);
+        Get.off(() => IntroScreen());
+      } else {
+        Get.off(() => LoginScreen());
+      }
     });
   }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controllers/auth_controller.dart';
+import '../screens/home_screen.dart';
 import '../widgets/my_text_field.dart';
 
 enum SignType { In, Up }
@@ -11,18 +13,20 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final formKey = GlobalKey();
+  final _formKey = GlobalKey<FormState>();
+  final authController = Get.find<AuthController>();
   SignType signType = SignType.In;
   String? email;
   String? password;
   String? mobile;
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: Form(
-          key: formKey,
+          key: _formKey,
           child: Container(
             height: Get.size.height,
             child: SingleChildScrollView(
@@ -93,7 +97,21 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(30.0),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              setState(() => loading = true);
+                              await authController
+                                  .login(email!, password!)
+                                  .then((value) {
+                                if (value == 'loggedin') {
+                                  Get.off(() => HomeScreen());
+                                } else {
+                                  Get.snackbar('Error!', value);
+                                }
+                              });
+                            }
+                          },
                           child: Text(
                             signType == SignType.In ? 'LogIn' : 'SignUp',
                             style: TextStyle(
