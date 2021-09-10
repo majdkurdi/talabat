@@ -1,12 +1,133 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class LoginScreen extends StatelessWidget {
+import '../widgets/my_text_field.dart';
+
+enum SignType { In, Up }
+
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final formKey = GlobalKey();
+  SignType signType = SignType.In;
+  String? email;
+  String? password;
+  String? mobile;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('test'),
-      ),
-    );
+        backgroundColor: Theme.of(context).primaryColor,
+        body: Form(
+          key: formKey,
+          child: Container(
+            height: Get.size.height,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Container(
+                      child: Image(image: AssetImage('assets/logo.jpg')),
+                      height: Get.size.height / 3,
+                      width: Get.size.width,
+                    ),
+                  ),
+                  MyTextField(
+                    Icons.email,
+                    TextInputType.emailAddress,
+                    'Enter Your Email',
+                    (String? val) {
+                      if (val == null ||
+                          !val.contains('@') ||
+                          !val.contains('.'))
+                        return 'Please Enter a Valid Email!';
+                      else
+                        return null;
+                    },
+                    (String? val) {
+                      email = val;
+                    },
+                  ),
+                  if (signType == SignType.Up)
+                    MyTextField(
+                      Icons.mobile_friendly,
+                      TextInputType.number,
+                      'Enter Your Mobile Number',
+                      (String? val) {
+                        if (val == null ||
+                            int.tryParse(val) == null ||
+                            val.length < 8)
+                          return 'Please Enter a Valid Number!';
+                        else
+                          return null;
+                      },
+                      (String? val) {
+                        mobile = val;
+                      },
+                    ),
+                  MyTextField(Icons.security, TextInputType.visiblePassword,
+                      'Enter Your Password', (String? val) {
+                    if (val == null || val.length < 6)
+                      return 'Password is Short!';
+                    else
+                      return null;
+                  }, (String? val) {
+                    password = val;
+                  }, true),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Container(
+                      width: Get.size.width / 2,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            elevation: 15,
+                            primary: Theme.of(context).accentColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                          onPressed: () {},
+                          child: Text(
+                            signType == SignType.In ? 'LogIn' : 'SignUp',
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          )),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextButton(
+                        onPressed: () {
+                          setState(() {
+                            signType = signType == SignType.In
+                                ? SignType.Up
+                                : SignType.In;
+                          });
+                        },
+                        child: Text(
+                          signType == SignType.In
+                              ? 'Or Create New Account.'
+                              : 'Already have an account? Login.',
+                          style: TextStyle(
+                            color: Theme.of(context).accentColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 }

@@ -59,10 +59,7 @@ class _IntroScreenState extends State<IntroScreen> {
                       backgroundColor: MaterialStateProperty.all(
                           Theme.of(context).primaryColor)),
                 ),
-              if (currStep == 0)
-                SizedBox(
-                  width: 20,
-                ),
+              if (currStep == 0) SizedBox(width: 20),
               SizedBox(width: 20),
               ElevatedButton(
                 onPressed: onStepContinue,
