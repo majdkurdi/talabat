@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.only(top: 40, bottom: 20),
                     child: Container(
                       child: Image(image: AssetImage('assets/logo.jpg')),
                       height: Get.size.height / 3,
@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         mobile = val;
                       },
                     ),
-                  MyTextField(Icons.security, TextInputType.visiblePassword,
+                  MyTextField(Icons.lock, TextInputType.visiblePassword,
                       'Enter Your Password', (String? val) {
                     if (val == null || val.length < 6)
                       return 'Password is Short!';
@@ -101,24 +101,36 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
                               setState(() => loading = true);
-                              await authController
-                                  .login(email!, password!)
-                                  .then((value) {
+                              if (signType == SignType.In) {
+                                final value = await authController.login(
+                                    email!, password!);
+                                setState(() => loading = false);
                                 if (value == 'loggedin') {
                                   Get.off(() => HomeScreen());
                                 } else {
                                   Get.snackbar('Error!', value);
                                 }
-                              });
+                              } else {
+                                final value = await authController.signUp(
+                                    email!, password!);
+                                setState(() => loading = false);
+                                if (value == 'loggedin') {
+                                  Get.off(() => HomeScreen());
+                                } else {
+                                  Get.snackbar('Error!', value);
+                                }
+                              }
                             }
                           },
-                          child: Text(
-                            signType == SignType.In ? 'LogIn' : 'SignUp',
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          )),
+                          child: loading
+                              ? CircularProgressIndicator()
+                              : Text(
+                                  signType == SignType.In ? 'LogIn' : 'SignUp',
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                )),
                     ),
                   ),
                   Padding(

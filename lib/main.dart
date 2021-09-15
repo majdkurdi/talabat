@@ -3,12 +3,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 
 import './controllers/auth_controller.dart';
+import './controllers/restaurants_controller.dart';
 import './screens/welcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   Get.put(AuthController());
+  Get.put(RestaurantsController());
   runApp(MyApp());
 }
 

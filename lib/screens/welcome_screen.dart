@@ -33,6 +33,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       backgroundColor: Theme.of(context).primaryColor,
       body: SingleChildScrollView(
         child: Container(
+          padding: const EdgeInsets.all(60),
           height: Get.size.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
