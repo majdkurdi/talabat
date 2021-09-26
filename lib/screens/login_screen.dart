@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
                               } else {
                                 final value = await authController.signUp(
-                                    email!, password!);
+                                    email!, password!, mobile!);
                                 setState(() => loading = false);
                                 if (value == 'loggedin') {
                                   Get.off(() => HomeScreen());
