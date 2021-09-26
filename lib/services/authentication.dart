@@ -24,4 +24,35 @@ class Auth {
       throw e;
     }
   }
+
+  void refreshToken() {
+    try {
+      auth.currentUser!.refreshToken;
+    } on Exception catch (e) {
+      throw e;
+    }
+  }
+
+  Future<void> changePassword(String newPassword) async {
+    try {
+      auth.currentUser!.updatePassword(newPassword);
+    } on Exception catch (e) {
+      throw e;
+    }
+  }
+
+  Future<void> signOut() async {
+    try {
+      await auth.signOut();
+    } on Exception catch (e) {
+      throw e;
+    }
+  }
+
+  bool get isLoggedIn {
+    if (auth.currentUser == null)
+      return false;
+    else
+      return true;
+  }
 }
