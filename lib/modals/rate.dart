@@ -9,9 +9,14 @@ class Rate {
 }
 
 class Review {
+  final String? name;
   final int? rate;
   final String? review;
   final List<String>? order;
 
-  Review({@required this.rate, @required this.review, @required this.order});
+  Review(
+      {@required this.rate,
+      @required this.review,
+      @required this.order,
+      @required this.name});
 }
