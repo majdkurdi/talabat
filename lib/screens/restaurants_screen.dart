@@ -3,9 +3,7 @@ import 'package:get/get.dart';
 import '../controllers/restaurants_controller.dart';
 import '../widgets/switch_button.dart';
 import '../widgets/error_card.dart';
-
-const String image =
-    'https://nieuwspaal.nl/wp-content/uploads/mcdonalds-fastfood-mac-mcdrive.jpg';
+import '../widgets/restaurant_card.dart';
 
 class Restaurants extends StatefulWidget {
   @override
@@ -39,14 +37,21 @@ class _RestaurantsState extends State<Restaurants> {
   @override
   Widget build(BuildContext context) {
     final restaurants = restaurantsController.restaurants;
+    final deliveryRestaurants = restaurantsController.deliveryRestaurants;
+
+    final searchRes =
+        restaurants.where((e) => e.name.contains(searchText)).toList();
     return Scaffold(
-      body: Center(
-        child: loading
-            ? CircularProgressIndicator(
+      body: loading
+          ? Center(
+              child: CircularProgressIndicator(
                 valueColor:
                     AlwaysStoppedAnimation(Theme.of(context).primaryColor),
-              )
-            : Column(
+              ),
+            )
+          : SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
                     padding:
@@ -106,14 +111,63 @@ class _RestaurantsState extends State<Restaurants> {
                             child: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.sort, color: Colors.black),
-                                  Center(child: Text('Sort'))
-                                ],
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.bottomSheet(
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border:
+                                              Border.all(color: Colors.white),
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(20))),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: SortBy.values.length,
+                                              itemBuilder: (ctx, i) => Column(
+                                                children: [
+                                                  GestureDetector(
+                                                    child: Text(
+                                                        SortBy.values[i]
+                                                            .toString()
+                                                            .split('.')[1],
+                                                        style: TextStyle(
+                                                            fontSize: 20)),
+                                                    onTap: () {
+                                                      restaurantsController
+                                                          .sortRestaurants(
+                                                              SortBy.values[i]);
+                                                      setState(() {});
+                                                      Get.back();
+                                                    },
+                                                  ),
+                                                  Divider()
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Row(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.sort, color: Colors.black),
+                                    Center(child: Text('Sort'))
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -121,71 +175,27 @@ class _RestaurantsState extends State<Restaurants> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      elevation: 8,
-                      child: Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(8),
-                                topRight: Radius.circular(8)),
-                            child: FadeInImage(
-                                height: Get.size.height / 5,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                                placeholder: AssetImage('assets/logo.jpg'),
-                                image: NetworkImage(image)),
+                  errMsg != null
+                      ? ErrorCard(errMsg!)
+                      : ListView.builder(
+                          itemBuilder: (ctx, i) => RestaurantCard(
+                            restaurant: searchText == ''
+                                ? delivery
+                                    ? deliveryRestaurants[i]
+                                    : restaurants[i]
+                                : searchRes[i],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 4),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('N3N3 Chicken',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold)),
-                                    Text('3.5\$ delivery',
-                                        style: TextStyle(
-                                          color: Colors.green,
-                                          fontSize: 18,
-                                        ))
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Lattakia, Port Said St',
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 18,
-                                        )),
-                                    Text('30-35 min',
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 18,
-                                        ))
-                                  ],
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  )
+                          itemCount: searchText == ''
+                              ? delivery
+                                  ? deliveryRestaurants.length
+                                  : restaurants.length
+                              : searchRes.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                        ),
                 ],
               ),
-      ),
+            ),
     );
   }
 }

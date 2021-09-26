@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:talabat/screens/account_screen.dart';
 import '../screens/orders_screen.dart';
 import '../screens/restaurants_screen.dart';
+import './cart_screen.dart';
 import '../widgets/custom_animated_bottom_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,11 +15,13 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
 
   Widget getBody() {
-    List<Widget> pages = [Restaurants(), OrdersScreen(), AccountScreen()];
-    return IndexedStack(
-      index: currentIndex,
-      children: pages,
-    );
+    List<Widget> pages = [
+      Restaurants(),
+      OrdersScreen(),
+      CartScreen(),
+      AccountScreen()
+    ];
+    return pages[currentIndex];
   }
 
   @override
@@ -38,6 +41,13 @@ class _HomeScreenState extends State<HomeScreen> {
             BottomNavyBarItem(
               icon: Icon(Icons.list_alt),
               title: Text('orders'),
+              activeColor: Theme.of(context).primaryColor,
+              inactiveColor: Colors.grey,
+              textAlign: TextAlign.center,
+            ),
+            BottomNavyBarItem(
+              icon: Icon(Icons.shopping_cart),
+              title: Text('Cart'),
               activeColor: Theme.of(context).primaryColor,
               inactiveColor: Colors.grey,
               textAlign: TextAlign.center,
