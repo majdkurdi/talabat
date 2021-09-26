@@ -33,6 +33,8 @@ dependencies:
   cloud_firestore: ^2.5.1
   firebase_auth: ^3.1.0
   shared_preferences: ^2.0.7
+  google_maps_flutter: 2.0.6
+  url_launcher: 6.0.9
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +65,7 @@ flutter:
     - assets/fast.png
     - assets/free.png
     - assets/easy.png
+    - assets/profile.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

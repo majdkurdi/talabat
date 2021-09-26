@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import './intro_screen.dart';
 import './login_screen.dart';
+import './home_screen.dart';
+import '../controllers/auth_controller.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -11,6 +13,7 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  final authController = Get.find<AuthController>();
   @override
   void initState() {
     super.initState();
@@ -19,10 +22,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       final firstTime = prefs.getBool('first time');
       await Future.delayed(Duration(seconds: 2));
       if (firstTime == null || firstTime) {
-        prefs.setBool('first time', true);
+        prefs.setBool('first time', false);
         Get.off(() => IntroScreen());
       } else {
-        Get.off(() => LoginScreen());
+        if (!authController.isLoggedIn)
+          Get.off(() => LoginScreen());
+        else {
+          authController.profile.value = {
+            'email': prefs.getString('email'),
+            'mobile': prefs.getString('mobile'),
+            'name': prefs.getString('name'),
+            'address': prefs.getString('address')
+          };
+          Get.off(() => HomeScreen());
+        }
       }
     });
   }
