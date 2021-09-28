@@ -13,9 +13,6 @@ class RestaurantScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -26,7 +23,7 @@ class RestaurantScreen extends StatelessWidget {
                     FadeInImage(
                       placeholder: AssetImage('assets/logo.jpg'),
                       image: NetworkImage(restaurant.coverUrl),
-                      height: Get.size.height / 5,
+                      height: Get.size.height / 2.5,
                       width: Get.size.width,
                       fit: BoxFit.cover,
                     ),
@@ -70,15 +67,15 @@ class RestaurantScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.all(Radius.circular(5))),
-                  width: Get.size.width / 5,
-                  height: Get.size.width / 5,
+                  width: Get.size.width / 4,
+                  height: Get.size.width / 4,
                   child: FadeInImage(
                     fit: BoxFit.fill,
                     placeholder: AssetImage('assets/logo.jpg'),
                     image: NetworkImage(restaurant.logoUrl),
                   ),
                 ),
-                top: Get.size.height / 7,
+                top: Get.size.height / 3,
                 right: 10,
               ),
             ]),

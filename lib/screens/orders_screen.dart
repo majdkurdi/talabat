@@ -31,12 +31,14 @@ class _OrdersScreenState extends State<OrdersScreen> {
     List<Order> orders = ordersController.orders;
     return Scaffold(
         appBar: AppBar(
-          title: Text('Your Orders'),
+          elevation: 0,
+          title: Text('Your Orders', style: TextStyle(color: Colors.white)),
         ),
         body: loading
             ? Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).primaryColor),
                 ),
               )
             : SingleChildScrollView(

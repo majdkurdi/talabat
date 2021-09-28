@@ -15,21 +15,23 @@ class CartController extends GetxController {
 
   void addToCart(Meal meal, int quantity) {
     final ids = cart.map((element) => element.id).toList();
-    if (!ids.contains(meal.id))
+    if (!ids.contains(meal.id)) {
       cart.add(CartItem(
           id: meal.id,
           title: meal.title!,
           price: meal.price!,
           quantity: quantity));
-    else
-      cart.where((e) => e.id == meal.id).first.quantity++;
+    } else {
+      cart.firstWhere((e) => e.id == meal.id).quantity += quantity;
+    }
   }
 
   void removeFromCart(CartItem item, int quan) {
-    if (cart.where((e) => e.id == item.id).first.quantity <= quan) {
+    final selectedItem = cart.firstWhere((e) => e.id == item.id);
+    if (selectedItem.quantity <= quan) {
       cart.removeWhere((element) => element.id == item.id);
     } else {
-      cart.where((e) => e.id == item.id).first.quantity -= quan;
+      selectedItem.quantity -= quan;
     }
   }
 }
