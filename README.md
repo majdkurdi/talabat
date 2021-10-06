@@ -1,16 +1,51 @@
-# talabat
+# Talabat
 
-A new Flutter project.
+Flutter app for food Delivery, pick your favorite restaurant, add your meals to the cart and ORDER!
+ 
 
-## Getting Started
+<table>
+<tr>
+<td>
+<img width="200" height ="400" src="https://raw.githubusercontent.com/majdkurdi/talabat/main/Screenshots/1.jpg"/>
+</td>
+<td>
+<img width="200" height ="400" src="https://raw.githubusercontent.com/majdkurdi/talabat/main/Screenshots/2.jpg"/>
+</td>
+<td>
+<img width="200" height ="400" src="https://raw.githubusercontent.com/majdkurdi/talabat/main/Screenshots/3.jpg"/>
+</td>
+</tr>
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+<tr>
+<td>
+<img width="200" height ="400" src="https://raw.githubusercontent.com/majdkurdi/talabat/main/Screenshots/4.jpg"/>
+</td>
+<td>
+<img width="200" height ="400" src="https://raw.githubusercontent.com/majdkurdi/talabat/main/Screenshots/5.jpg"/>
+</td>
+<td>
+<img width="200" height ="400" src="https://raw.githubusercontent.com/majdkurdi/talabat/main/Screenshots/6.jpg"/>
+</td>
+</tr>
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+<tr>
+<td>
+<img width="200" height ="400" src="https://raw.githubusercontent.com/majdkurdi/talabat/main/Screenshots/7.jpg"/>
+</td>
+<td>
+<img width="200" height ="400" src="https://raw.githubusercontent.com/majdkurdi/talabat/main/Screenshots/8.jpg"/>
+</td>
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+</tr>
+
+<tr>
+<td>
+<img width="200" height ="400" src="https://raw.githubusercontent.com/majdkurdi/talabat/main/Screenshots/9.jpg"/>
+</td>
+<td>
+<img width="200" height ="400" src="https://raw.githubusercontent.com/majdkurdi/talabat/main/Screenshots/10.jpg"/>
+</td>
+
+</tr>
+</table>
